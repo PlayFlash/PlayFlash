@@ -1,0 +1,53 @@
+name: playflash
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  permission_handler: ^11.3.1
+  oauth2: ^2.0.2       # Best for OAuth flows
+  http: ^0.13.5        # For API calls
+  url_launcher: ^6.2.4 # For opening Spotify login in browser
+  app_links: ^3.5.0
+  path_provider: ^2.1.1  # Add this
+  shared_preferences: ^2.2.2
+  flutter_secure_storage: ^9.0.0
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/logo.png"
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/images/intro_image.png
+
+  fonts:
+    - family: ProductSans
+      fonts:
+        - asset: assets/fonts/productsans-light.ttf
+          weight: 300
+        - asset: assets/fonts/productsans-lightitalic.ttf
+          weight: 300
+        - asset: assets/fonts/productsans-medium.ttf
+          weight: 500
+        - asset: assets/fonts/productsans-regular.ttf
+          weight: 400
