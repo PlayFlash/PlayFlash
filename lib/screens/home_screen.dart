@@ -125,11 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       
       try {
-        // Create new playlist
+        // Create new playlist with original name suffix
+        final newPlaylistName = '$playlistName - ${playlist.name}';
         final newPlaylistId = await _spotifyService!.createPlaylist(
           userId, 
-          playlistName,
-          description: 'Created by PlayFlash AI!'
+          newPlaylistName,
+          description: 'Created by PlayFlash AI from ${playlist.name}'
         );
         
         setState(() {
@@ -154,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
           
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Created "$playlistName" with ${trackUris.length} songs'),
+              content: Text('Created "$newPlaylistName" with ${trackUris.length} songs'),
               duration: const Duration(seconds: 3),
             ),
           );

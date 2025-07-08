@@ -7,11 +7,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:playflash/secrets.dart';
 
 class SpotifyAuth {
   // Credentials
-  static const _clientId = 'a1974204c10b4d5f9e90428d402fd75e';
-  static const _clientSecret = 'c420feced4a346d28ad3f547485e98f7';
+  static const _clientId = Secrets.spotifyClientId;
+  static const _clientSecret = Secrets.spotifyClientSecret;
   static const _redirectUri = 'playflash://callback';
   
   // Spotify OAuth endpoints
