@@ -31,7 +31,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/icon/logo.png"
+  image_path: "assets/images/logo.jpeg"
 
 flutter:
   uses-material-design: true
@@ -39,6 +39,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/intro_image.png
+    - assets/images/logo.jpeg
 
   fonts:
     - family: ProductSans
