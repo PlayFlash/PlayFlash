@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  lottie: ^2.6.0
   permission_handler: ^11.3.1
   oauth2: ^2.0.2       # Best for OAuth flows
   http: ^0.13.5        # For API calls
@@ -35,11 +36,24 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
+
   
   assets:
+    - assets/about.json
     - assets/images/
     - assets/images/intro_image.png
     - assets/images/logo.jpeg
+    - assets/images/help/1.jpg
+    - assets/images/help/2.jpg
+    - assets/images/help/3.jpg
+    - assets/images/help/4.jpg
+    - assets/images/help/5.jpg
+    - assets/images/help/6a.jpg
+    - assets/images/help/6b.jpg
+    - assets/images/help/6c.jpg
+    - assets/images/help/7.jpg
+    - assets/images/help/8.jpg
+
 
   fonts:
     - family: ProductSans
@@ -52,3 +66,11 @@ flutter:
           weight: 500
         - asset: assets/fonts/productsans-regular.ttf
           weight: 400
+
+    - family: Monument
+      fonts:
+        - asset: assets/fonts/monument.ttf
+
+    - family: Nothing
+      fonts:
+        - asset: assets/fonts/nothing.ttf

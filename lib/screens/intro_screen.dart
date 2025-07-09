@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import 'home_screen.dart';
+import 'help_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});
-
-  void _showNeedHelp(BuildContext context) {
-    //how does this work
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,27 +22,43 @@ class IntroScreen extends StatelessWidget {
             ),
           ),
 
-          // Divided layout with image in bottom-left
+          // Main layout divided into sections
           Column(
             children: [
-              // Section 1: Top 25% (App name and headline)
+              // Section 1: App name and tagline
               Expanded(
                 flex: 1,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "PlayFlash",
-                        style: TextStyle(
-                          fontFamily: 'ProductSans',
-                          fontSize: 42,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
+                    children: const [
+                      Text.rich(
+  TextSpan(
+    children: [
+      TextSpan(
+        text: 'Play ',
+        style: TextStyle(
+          fontFamily: 'ProductSans',
+          fontSize: 42,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+      ),
+      TextSpan(
+        text: 'Flash',
+        style: TextStyle(
+          fontFamily: 'Nothing',
+          fontSize: 42,
+          fontWeight: FontWeight.w500,
+          color: Color(0xFF4CB050), // replace with exact green if needed
+        ),
+      ),
+    ],
+  ),
+)
+,
+                      SizedBox(height: 16),
+                      Text(
                         "One Playlist? That's Cute.",
                         style: TextStyle(
                           fontFamily: 'ProductSans',
@@ -59,14 +72,14 @@ class IntroScreen extends StatelessWidget {
                 ),
               ),
 
-              // Section 2: Middle 25% (Description)
+              // Section 2: App description
               Expanded(
                 flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: Center(
                     child: Text(
-                      "PlayFlash is a Playlist-Focused Listening and Sorting Hub that uses AI to turn your messy playlists into mood-perfect mixes!",
+                      "PlayFlash is a Playlist-Focused Listening and Sorting Hub (F.L.A.S.H) that uses AI to turn your messy playlists into mood-perfect mixes!",
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'ProductSans',
@@ -79,7 +92,7 @@ class IntroScreen extends StatelessWidget {
                 ),
               ),
 
-              // Section 3: Bottom 25% (Buttons)
+              // Section 3: Buttons
               Expanded(
                 flex: 1,
                 child: Padding(
@@ -104,9 +117,16 @@ class IntroScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       TextButton(
-                        onPressed: () => _showNeedHelp(context),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HelpScreen(),
+                            ),
+                          );
+                        },
                         child: const Text(
-                          "How does this work?",
+                          "Okay but like... how tho?",
                           style: TextStyle(
                             fontFamily: 'ProductSans',
                             fontWeight: FontWeight.w500,
@@ -120,11 +140,11 @@ class IntroScreen extends StatelessWidget {
                 ),
               ),
 
-              // Section 4: Image (now larger and properly aligned)
+              // Section 4: Bottom image
               Expanded(
                 flex: 1,
                 child: Stack(
-                  clipBehavior: Clip.none, // Allows image to overflow
+                  clipBehavior: Clip.none,
                   children: [
                     Positioned(
                       left: -MediaQuery.of(context).size.width * 0.25,
@@ -132,11 +152,9 @@ class IntroScreen extends StatelessWidget {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 1.0,
                         height: MediaQuery.of(context).size.width * 1.3,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/intro_image.png",
-                            ),
+                            image: AssetImage("assets/images/intro_image.png"),
                             fit: BoxFit.contain,
                             alignment: Alignment.bottomLeft,
                           ),

@@ -66,14 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadPlaylists() async {
     if (_spotifyService == null) return;
-    
+
     setState(() => _isLoadingPlaylists = true);
-    
+
     try {
       final playlists = await _spotifyService!.getUserPlaylists();
       setState(() => _playlists = playlists);
     } catch (e) {
-      if (e.toString().contains('expired') || e.toString().contains('Authentication')) {
+      if (e.toString().contains('expired') ||
+          e.toString().contains('Authentication')) {
         await _handleExpiredSession();
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -95,95 +96,106 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _classifyAndCreatePlaylist(SpotifyPlaylist playlist) async {
-  setState(() => _classifyingPlaylists[playlist.id] = true);
+    setState(() => _classifyingPlaylists[playlist.id] = true);
 
-  try {
-    final tracks = await _spotifyService!.getPlaylistTracks(playlist.id);
-    if (tracks.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${playlist.name} is empty')),
-      );
-      return;
-    }
+    try {
+      final tracks = await _spotifyService!.getPlaylistTracks(playlist.id);
+      if (tracks.isEmpty) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('${playlist.name} is empty')));
+        return;
+      }
 
-    final trackTitles = tracks.map((t) => t['name']?.toString().trim() ?? 'Unknown').toList();
-    final classification = await _geminiService.classifySongs(trackTitles);
+      final trackTitles = tracks
+          .map((t) => t['name']?.toString().trim() ?? 'Unknown')
+          .toList();
+      final classification = await _geminiService.classifySongs(trackTitles);
 
-    // Get user ID for playlist creation
-    final userId = await _spotifyService!.getCurrentUserId();
-    int createdCount = 0;
-    
-    for (final entry in classification.entries) {
-      final playlistName = entry.key;
-      final trackIndices = entry.value;
-      
-      if (trackIndices.isEmpty) continue;
-      
-      setState(() {
-        _creatingPlaylists[playlistName] = true;
-        _newPlaylistName = playlistName;
-      });
-      
-      try {
-        // Create new playlist with original name suffix
-        final newPlaylistName = '$playlistName - ${playlist.name}';
-        final newPlaylistId = await _spotifyService!.createPlaylist(
-          userId, 
-          newPlaylistName,
-          description: 'Created by PlayFlash AI from ${playlist.name}'
-        );
-        
+      // Get user ID for playlist creation
+      final userId = await _spotifyService!.getCurrentUserId();
+      int createdCount = 0;
+
+      for (final entry in classification.entries) {
+        final playlistName = entry.key;
+        final trackIndices = entry.value;
+
+        if (trackIndices.isEmpty) continue;
+
         setState(() {
-          _newPlaylistId = newPlaylistId;
+          _creatingPlaylists[playlistName] = true;
+          _newPlaylistName = playlistName;
         });
-        
-        // Get track URIs for the classified tracks
-        final trackUris = <String>[];
-        for (final index in trackIndices) {
-          if (index < tracks.length) {
-            final trackId = tracks[index]['id']?.toString();
-            if (trackId != null) {
-              trackUris.add('spotify:track:$trackId');
+
+        try {
+          // Create new playlist with original name suffix
+          final newPlaylistName = '$playlistName - ${playlist.name}';
+          final newPlaylistId = await _spotifyService!.createPlaylist(
+            userId,
+            newPlaylistName,
+            description: 'Created by PlayFlash AI from ${playlist.name}',
+          );
+
+          setState(() {
+            _newPlaylistId = newPlaylistId;
+          });
+
+          // Get track URIs for the classified tracks
+          final trackUris = <String>[];
+          for (final index in trackIndices) {
+            if (index < tracks.length) {
+              final trackId = tracks[index]['id']?.toString();
+              if (trackId != null) {
+                trackUris.add('spotify:track:$trackId');
+              }
             }
           }
-        }
-        
-        // Add tracks to the new playlist
-        if (trackUris.isNotEmpty) {
-          await _spotifyService!.addTracksToPlaylist(newPlaylistId, trackUris);
-          createdCount++;
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Created "$newPlaylistName" with ${trackUris.length} songs'),
-              duration: const Duration(seconds: 3),
-            ),
-          );
-        }
-      } catch (e) {
-        await _handleSpotifyError(e, context);
-      } finally {
-        setState(() => _creatingPlaylists.remove(playlistName));
-      }
-    }
 
-    if (createdCount > 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Created $createdCount playlists from ${playlist.name}')),
-      );
-      // Refresh playlists to show new ones
-      await _loadPlaylists();
+          // Add tracks to the new playlist
+          if (trackUris.isNotEmpty) {
+            await _spotifyService!.addTracksToPlaylist(
+              newPlaylistId,
+              trackUris,
+            );
+            createdCount++;
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Created "$newPlaylistName" with ${trackUris.length} songs',
+                ),
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          }
+        } catch (e) {
+          await _handleSpotifyError(e, context);
+        } finally {
+          setState(() => _creatingPlaylists.remove(playlistName));
+        }
+      }
+
+      if (createdCount > 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Created $createdCount playlists from ${playlist.name}',
+            ),
+          ),
+        );
+        // Refresh playlists to show new ones
+        await _loadPlaylists();
+      }
+    } catch (e) {
+      await _handleSpotifyError(e, context);
+    } finally {
+      setState(() {
+        _classifyingPlaylists.remove(playlist.id);
+        _newPlaylistName = null;
+        _newPlaylistId = null;
+      });
     }
-  } catch (e) {
-    await _handleSpotifyError(e, context);
-  } finally {
-    setState(() {
-      _classifyingPlaylists.remove(playlist.id);
-      _newPlaylistName = null;
-      _newPlaylistId = null;
-    });
   }
-}
 
   Future<void> _logout() async {
     await SpotifyAuth.clearSavedTokens();
@@ -196,32 +208,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _handleSpotifyError(dynamic e, BuildContext context) async {
-  if (e.toString().contains('403') && e.toString().contains('Insufficient client scope')) {
-    await _logout();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('New permissions required. Please reconnect to Spotify.'),
-        duration: Duration(seconds: 5),
-      ),
-    );
-  } else if (e.toString().contains('401') || e.toString().contains('expired')) {
-    await _handleExpiredSession();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Session expired. Please reconnect to Spotify.'),
-        duration: Duration(seconds: 3),
-      ),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error: ${e.toString()}'),
-        duration: const Duration(seconds: 3),
-      ),
-    );
+    if (e.toString().contains('403') &&
+        e.toString().contains('Insufficient client scope')) {
+      await _logout();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'New permissions required. Please reconnect to Spotify.',
+          ),
+          duration: Duration(seconds: 5),
+        ),
+      );
+    } else if (e.toString().contains('401') ||
+        e.toString().contains('expired')) {
+      await _handleExpiredSession();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Session expired. Please reconnect to Spotify.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: _isConnected 
+      appBar: _isConnected
           ? AppBar(
               backgroundColor: Colors.black,
               title: const Text(
@@ -294,10 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: const Text(
               'Continue with Spotify',
-              style: TextStyle(
-                fontFamily: 'ProductSans',
-                color: Colors.white,
-              ),
+              style: TextStyle(fontFamily: 'ProductSans', color: Colors.white),
             ),
           ),
         ],
@@ -310,10 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return const Center(
         child: Text(
           'No playlists found',
-          style: TextStyle(
-            fontFamily: 'ProductSans',
-            color: Colors.white70,
-          ),
+          style: TextStyle(fontFamily: 'ProductSans', color: Colors.white70),
         ),
       );
     }
@@ -349,7 +358,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.grey[700],
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(Icons.music_note, color: Colors.white),
+                        child: const Icon(
+                          Icons.music_note,
+                          color: Colors.white,
+                        ),
                       ),
                 title: Text(
                   playlist.name,
@@ -372,18 +384,31 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 24,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.green,
+                          ),
                         ),
                       )
                     : IconButton(
-                        icon: const Icon(Icons.auto_awesome, color: Colors.white),
+                        icon: ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [Colors.green, Colors.tealAccent],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ).createShader(bounds),
+                          child: const Icon(
+                            Icons.auto_awesome,
+                            size: 28, // You can adjust this
+                            color: Colors.white, // Acts as a base mask
+                          ),
+                        ),
                         onPressed: () => _classifyAndCreatePlaylist(playlist),
                       ),
               ),
             );
           },
         ),
-        
+
         // Playlist creation indicator
         if (_creatingPlaylists.isNotEmpty)
           Positioned(
