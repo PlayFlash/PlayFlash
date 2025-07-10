@@ -47,13 +47,40 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 
 > _Tip: If prompted, allow installation from unknown sources._
 
+## ⚠️ Important Limitation
+
+-Due to recent changes in Spotify’s developer policy (effective May 15, 2025), all new apps that use Spotify services—like PlayFlash—are restricted to **Development Mode** by default.
+
+## ❔ Why This Limitation Exists
+
+-Spotify now only grants Extended Quota Mode to established organizations (those with 250k+ monthly active users), and not to individual developers like me :(
+
+-Since PlayFlash is personal project developed by a solo undergrad and not affiliated with any registered business entity, it does not currently meet Spotify’s criteria for extended quota access.
+
+## 🚧 What This Means for You
+
+-PlayFlash can currently be used by up to 25 users, whose Spotify emails I must manually add via the Spotify Developer Dashboard.
+
+-This is not a bug or limitation of PlayFlash — it is a platform restriction imposed by Spotify from May 15, 2025.
+
+-Once your Spotify account is added, PlayFlash will work as intended — fetching playlists and generating mood-based collections.
+
+## 🔗 Learn More
+
+- For full details on these restrictions, refer to Spotify’s official documentation:
+- [📄 Visit Spotify's official documentation](https://developer.spotify.com/documentation/web-api/concepts/quota-modes)  
+
+
+
+## 🧑‍💻 Getting Started for Normal Users
+
 
 ## 🧑‍💻 Getting Started with Development (For Testers)
 
 1. Clone the repository  
    ```bash
    git clone https://github.com/a5xwin/PlayFlash.git
-   cd Messe
+   cd PlayFlash
 
 2. Install dependencies
     ```bash
