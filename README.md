@@ -70,7 +70,7 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 
 - Send me your mail id connected to spotify via ashmercesletifercoc@gmail.com
 - Download and install PlayFlash 
-[⬇️ Download PlayFlash for Android](https://github.com/a5xwin/PlayFlash/releases/download/v1.0/playflash.apk)  
+[⬇️ Download PlayFlash for Android](https://github.com/a5xwin/PlayFlash/releases/download/v1.1/playflash.apk)  
 > _Tip: If prompted, allow installation from unknown sources._
 - Enjoy!
 
