@@ -43,7 +43,7 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 
 ## 📱 Try the App
 
-- [⬇️ Download Messe for Android](https://github.com/a5xwin/PlayFlash/releases/latest/download/messe.apk)  
+- [⬇️ Download PlayFlash for Android](https://github.com/a5xwin/PlayFlash/releases/download/v1.0/playflash.apk)  
 
 > _Tip: If prompted, allow installation from unknown sources._
 
