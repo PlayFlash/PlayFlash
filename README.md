@@ -41,29 +41,24 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 - **OAuth 2.0** for Spotify login
 - **Gemini API** for genre and mood analysis
 
-## 📱 Try the App
-
-- [⬇️ Download PlayFlash for Android](https://github.com/a5xwin/PlayFlash/releases/download/v1.0/playflash.apk)  
-
-> _Tip: If prompted, allow installation from unknown sources._
 
 ## ⚠️ Important Limitation
 
-- Due to recent changes in Spotify’s developer policy (effective May 15, 2025), all new apps that use Spotify services—like PlayFlash—are restricted to **Development Mode** by default.
+- Due to recent changes in Spotify’s developer policy (effective May 15, 2025), all new apps that use Spotify services (like PlayFlash) are restricted to **Development Mode** by default.
 
 ## ❔ Why This Limitation Exists
 
--Spotify now only grants Extended Quota Mode to established organizations (those with 250k+ monthly active users), and not to individual developers like me :(
+- Spotify now grants Extended Quota Mode only to established organizations (those with 250k+ monthly active users), and not to individual developers like me :(
 
--Since PlayFlash is personal project developed by a solo undergrad and not affiliated with any registered business entity, it does not currently meet Spotify’s criteria for extended quota access.
+- Since PlayFlash is a personal project developed by a solo undergrad and not affiliated with any registered business entity, it does not currently meet Spotify’s criteria for extended quota access.
 
 ## 🚧 What This Means for You
 
--PlayFlash can currently be used by up to 25 users, whose Spotify emails I must manually add via the Spotify Developer Dashboard.
+- PlayFlash can currently be used by up to 25 users, whose Spotify emails I must manually add via the Spotify Developer Dashboard.
 
--This is not a bug or limitation of PlayFlash — it is a platform restriction imposed by Spotify from May 15, 2025.
+- This is **not** a bug or limitation of PlayFlash — it is a platform restriction imposed by Spotify from May 15, 2025.
 
--Once your Spotify account is added, PlayFlash will work as intended — fetching playlists and generating mood-based collections.
+- Once your Spotify account is added, PlayFlash will work as intended — fetching playlists and generating mood-based collections.
 
 ## 🔗 Learn More
 
@@ -71,8 +66,13 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 - [📄 Visit Spotify's official documentation](https://developer.spotify.com/documentation/web-api/concepts/quota-modes)  
 
 
+## 👶📱 Getting Started for Normal Users
 
-## 🧑‍💻 Getting Started for Normal Users
+- Send me your mail id connected to spotify via ashmercesletifercoc@gmail.com
+- Download and install PlayFlash 
+[⬇️ Download PlayFlash for Android](https://github.com/a5xwin/PlayFlash/releases/download/v1.0/playflash.apk)  
+> _Tip: If prompted, allow installation from unknown sources._
+- Enjoy!
 
 
 ## 🧑‍💻 Getting Started with Development (For Testers)
@@ -86,7 +86,23 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
     ```bash
     flutter pub get
 
-3. Run the app
+3. Rename the secrets_dummy.dart file (inside PlayFlash/lib/) to secrets.dart
+    ```bash
+    cd lib
+    mv secrets_dummy.dart secrets.dart
+    cd ..
+
+4. Add your credentials
+Open lib/secrets.dart and paste your:
+- Gemini API Key
+- Spotify Client ID
+- Spotify Client Secret
+
+You can obtain the last two from:
+- https://developer.spotify.com/dashboard/create
+
+
+5. Run the app
     ```bash
     flutter run
 
