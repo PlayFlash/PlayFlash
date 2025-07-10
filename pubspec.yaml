@@ -53,7 +53,14 @@ flutter:
     - assets/images/help/6c.jpg
     - assets/images/help/7.jpg
     - assets/images/help/8.jpg
-    - assets/images/help/intro.jpg
+    - assets/images/help/lowres/3.jpg
+    - assets/images/help/lowres/4.jpg
+    - assets/images/help/lowres/5.jpg
+    - assets/images/help/lowres/6a.jpg
+    - assets/images/help/lowres/6b.jpg
+    - assets/images/help/lowres/6c.jpg
+    - assets/images/help/lowres/8.jpg
+    - assets/images/help/lowres/intro.jpg
 
 
   fonts:

@@ -15,24 +15,24 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 ## 📸 Screenshots
 
 ###  Intro Screen
-![Intro](assets/images/help/intro.jpg)
+![Intro](assets/images/help/lowres/intro.jpg)
 
 ###  Authentication Screen
-![Authentication](assets/images/help/3.jpg)
+![Authentication](assets/images/help/lowres/3.jpg)
 
 ### Home Screen
-![Home](assets/images/help/4.jpg)
+![Home](assets/images/help/lowres/4.jpg)
 
 ### Processing Screen
-![Home](assets/images/help/5.jpg)
+![Home](assets/images/help/lowres/5.jpg)
 
 ### Creating mood based playlists
-![Play1](assets/images/help/6a.jpg)
-![Play2](assets/images/help/6a.jpg)
-![Play3](assets/images/help/6a.jpg)
+![Play1](assets/images/help/lowres/6a.jpg)
+![Play2](assets/images/help/lowres/6a.jpg)
+![Play3](assets/images/help/lowres/6a.jpg)
 
 ### Final Result Screen
-![Spotify](assets/images/help/8.jpg)
+![Spotify](assets/images/help/lowres/8.jpg)
 
 
 ## 🛠️ Tech Stack
