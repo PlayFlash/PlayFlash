@@ -49,7 +49,7 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 
 ## ⚠️ Important Limitation
 
--Due to recent changes in Spotify’s developer policy (effective May 15, 2025), all new apps that use Spotify services—like PlayFlash—are restricted to **Development Mode** by default.
+- Due to recent changes in Spotify’s developer policy (effective May 15, 2025), all new apps that use Spotify services—like PlayFlash—are restricted to **Development Mode** by default.
 
 ## ❔ Why This Limitation Exists
 
