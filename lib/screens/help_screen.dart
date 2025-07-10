@@ -86,13 +86,13 @@ class _HelpScreenState extends State<HelpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 70), // space for AppBar
+              const SizedBox(height: 70), 
 
-              // Carousel with images
+              // carousel with images
               Expanded(
                 child: Column(
                   children: [
-                    // Image carousel
+                    // image section
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.5,
                       child: PageView.builder(
@@ -108,7 +108,7 @@ class _HelpScreenState extends State<HelpScreen> {
                           return Container(
                             margin: const EdgeInsets.symmetric(horizontal: 8),
                             child: step['images'] != null
-                                ? // Multiple images in one slide (for 6a, 6b, 6c)
+                                ? // 3 images in 1 slide (6a,6b,6c)
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: (step['images'] as List<String>)
@@ -125,7 +125,7 @@ class _HelpScreenState extends State<HelpScreen> {
                                             ))
                                         .toList(),
                                   )
-                                : // Single image
+                                : // for single image
                                 ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.asset(
@@ -140,7 +140,7 @@ class _HelpScreenState extends State<HelpScreen> {
 
                     const SizedBox(height: 20),
 
-                    // Page indicators
+                    // page indicator dots
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
@@ -161,7 +161,7 @@ class _HelpScreenState extends State<HelpScreen> {
 
                     const SizedBox(height: 20),
 
-                    // Caption area
+                    // caption below carousel
                     Container(
                       height: 80,
                       alignment: Alignment.center,
@@ -183,7 +183,7 @@ class _HelpScreenState extends State<HelpScreen> {
 
               const SizedBox(height: 16),
 
-              // Spotify-styled About button
+              // about button
               SizedBox(
                 width: 120,
                 child: ElevatedButton(
@@ -194,7 +194,7 @@ class _HelpScreenState extends State<HelpScreen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1DB954), // Spotify green
+                    backgroundColor: const Color(0xFF1DB954), 
                     foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),

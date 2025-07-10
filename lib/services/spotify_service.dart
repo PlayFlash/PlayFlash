@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:oauth2/oauth2.dart' as oauth2;
 
-/// A service for both fetching user data and creating new playlists.
+//service to fetch both user data + create new playlists
 class SpotifyService {
   final oauth2.Client _client;
 
   SpotifyService(this._client);
 
-  // Test if token is valid
+  // tests if token is valid
   Future<bool> _isTokenValid() async {
     try {
       final response = await _client.get(
@@ -20,7 +20,7 @@ class SpotifyService {
     }
   }
 
-  /// Fetches the current user's Spotify ID.
+  // fetch current user spotify id
   Future<String> getCurrentUserId() async {
     final response = await _client.get(Uri.parse('https://api.spotify.com/v1/me'));
     if (response.statusCode == 200) {
@@ -31,12 +31,6 @@ class SpotifyService {
     }
   }
 
-  /// Creates a new (private) playlist for [userId] with [name] and optional [description].
-  /// Returns the new playlist's ID.
-  
-
-  /// Adds a list of Spotify track URIs to the given [playlistId].
-  /// Handles batching automatically to respect Spotify's 100-track limit per request.
   Future<String> createPlaylist(String userId, String name, {String description = ''}) async {
   try {
     final response = await _client.post(
@@ -86,7 +80,7 @@ Future<void> addTracksToPlaylist(String playlistId, List<String> trackUris) asyn
   }
 }
 
-  // Get user's playlists with all required fields
+  // fetch user playlist with all required fields
   Future<List<SpotifyPlaylist>> getUserPlaylists() async {
     try {
       if (!await _isTokenValid()) {
@@ -110,11 +104,11 @@ Future<void> addTracksToPlaylist(String playlistId, List<String> trackUris) asyn
     }
   }
 
-  // Updated getPlaylistTracks method with GPT's improved version
+
   Future<List<Map<String, dynamic>>> getPlaylistTracks(String playlistId) async {
     List<Map<String, dynamic>> allTracks = [];
     int offset = 0;
-    const limit = 50; // Max per request
+    const limit = 50; // max per request
     int totalTracks = 0;
     try {
       do {
@@ -152,7 +146,6 @@ Future<void> addTracksToPlaylist(String playlistId, List<String> trackUris) asyn
   }
 }
 
-// Updated data models with URI field
 class SpotifyPlaylist {
   final String id;
   final String name;
@@ -202,7 +195,7 @@ class SpotifyTrack {
   final int durationMs;
   final int popularity;
   final bool explicit;
-  final String uri; // Added URI field
+  final String uri; 
 
   SpotifyTrack({
     required this.id,
@@ -212,7 +205,7 @@ class SpotifyTrack {
     required this.durationMs,
     required this.popularity,
     required this.explicit,
-    required this.uri, // Added in constructor
+    required this.uri, 
   });
 
   factory SpotifyTrack.fromJson(Map<String, dynamic> json) {
@@ -226,7 +219,7 @@ class SpotifyTrack {
       durationMs: json['duration_ms'] ?? 0,
       popularity: json['popularity'] ?? 0,
       explicit: json['explicit'] ?? false,
-      uri: json['uri'] ?? '', // Added URI parsing
+      uri: json['uri'] ?? '', 
     );
   }
 }

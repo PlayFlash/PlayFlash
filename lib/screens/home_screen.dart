@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .toList();
       final classification = await _geminiService.classifySongs(trackTitles);
 
-      // Get user ID for playlist creation
+      // fetch user id for playlist creation
       final userId = await _spotifyService!.getCurrentUserId();
       int createdCount = 0;
 
@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
 
         try {
-          // Create new playlist with original name suffix
+          // creating new playlist with original playlist name at end)
           final newPlaylistName = '$playlistName - ${playlist.name}';
           final newPlaylistId = await _spotifyService!.createPlaylist(
             userId,
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _newPlaylistId = newPlaylistId;
           });
 
-          // Get track URIs for the classified tracks
+          // fetching track URIs for the classified tracks
           final trackUris = <String>[];
           for (final index in trackIndices) {
             if (index < tracks.length) {
@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           }
 
-          // Add tracks to the new playlist
+          // adding sorted tracks to the new playlist
           if (trackUris.isNotEmpty) {
             await _spotifyService!.addTracksToPlaylist(
               newPlaylistId,
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         );
-        // Refresh playlists to show new ones
+        // refresh playlists to show new ones
         await _loadPlaylists();
       }
     } catch (e) {
@@ -398,8 +398,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ).createShader(bounds),
                           child: const Icon(
                             Icons.auto_awesome,
-                            size: 28, // You can adjust this
-                            color: Colors.white, // Acts as a base mask
+                            size: 28,
+                            color: Colors.white, 
                           ),
                         ),
                         onPressed: () => _classifyAndCreatePlaylist(playlist),
@@ -409,7 +409,6 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
 
-        // Playlist creation indicator
         if (_creatingPlaylists.isNotEmpty)
           Positioned(
             bottom: 20,

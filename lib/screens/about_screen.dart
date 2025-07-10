@@ -9,13 +9,11 @@ class AboutScreen extends StatelessWidget {
     final uri = Uri.parse(url);
     
     try {
-      // Special handling for email links
       if (uri.scheme == 'mailto') {
         await launchUrl(uri);
         return;
       }
       
-      // Handle other URL types
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
@@ -74,28 +72,28 @@ class AboutScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              // GitHub card
+              // gitHub card
               _buildInfoCard(
                 context,
                 icon: Icons.code,
                 text: 'Liked it? Drop a ☆ on GitHub',
                 url: 'https://github.com/a5xwin/PlayFlash',
               ),
-              // Email card
+              // email card
               _buildInfoCard(
                 context,
                 icon: Icons.email,
                 text: "Got thoughts? I'm all ears!",
                 url: 'mailto:ashmercesletifercoc@gmail.com',
               ),
-              // Portfolio card
+              // portfolio card
               _buildInfoCard(
                 context,
                 icon: Icons.public,
                 text: 'Check out the rest of my stuff',
                 url: 'https://ashwinsajeev.onrender.com/',
               ),
-              // Spotify card
+              // spotify card
               _buildInfoCard(
                 context,
                 icon: Icons.music_note,

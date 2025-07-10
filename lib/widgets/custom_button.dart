@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  final TextStyle? textStyle; // 👈 Added optional textStyle
+  final TextStyle? textStyle; 
 
   const CustomButton({
     super.key,
     required this.text,
     required this.onPressed,
-    this.textStyle, // 👈 Accept textStyle
+    this.textStyle, 
   });
 
   @override
@@ -25,7 +25,6 @@ class CustomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
-          // Remove default textStyle here
         ),
         child: Text(
           text,

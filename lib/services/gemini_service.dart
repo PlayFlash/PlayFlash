@@ -80,7 +80,7 @@ ${trackTitles.asMap().entries.map((e) => '${e.key}: ${e.value}').join('\n')}
       final jsonString = text.substring(jsonStart, jsonEnd);
       final jsonData = json.decode(jsonString) as Map<String, dynamic>;
       
-      // Process the mapping to group songs by playlist
+      // process the mapping to group songs by playlist
       final mapping = jsonData['mapping'] as Map<String, dynamic>;
       final Map<String, List<int>> result = {};
       

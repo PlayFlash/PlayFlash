@@ -11,7 +11,6 @@ class IntroScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -22,10 +21,9 @@ class IntroScreen extends StatelessWidget {
             ),
           ),
 
-          // Main layout divided into sections
           Column(
             children: [
-              // Section 1: App name and tagline
+              // section1: app name and tagline
               Expanded(
                 flex: 1,
                 child: Center(
@@ -50,7 +48,7 @@ class IntroScreen extends StatelessWidget {
           fontFamily: 'Nothing',
           fontSize: 42,
           fontWeight: FontWeight.w500,
-          color: Color(0xFF4CB050), // replace with exact green if needed
+          color: Color(0xFF4CB050), 
         ),
       ),
     ],
@@ -72,7 +70,7 @@ class IntroScreen extends StatelessWidget {
                 ),
               ),
 
-              // Section 2: App description
+              // section2: app desc
               Expanded(
                 flex: 1,
                 child: Padding(
@@ -92,7 +90,7 @@ class IntroScreen extends StatelessWidget {
                 ),
               ),
 
-              // Section 3: Buttons
+              // section3: buttons
               Expanded(
                 flex: 1,
                 child: Padding(
@@ -140,7 +138,7 @@ class IntroScreen extends StatelessWidget {
                 ),
               ),
 
-              // Section 4: Bottom image
+              // section4: michael jackson image
               Expanded(
                 flex: 1,
                 child: Stack(

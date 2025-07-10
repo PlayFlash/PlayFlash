@@ -10,23 +10,22 @@ import 'package:http/http.dart' as http;
 import 'package:playflash/secrets.dart';
 
 class SpotifyAuth {
-  // Credentials
+  // defining the creds
   static const _clientId = Secrets.spotifyClientId;
   static const _clientSecret = Secrets.spotifyClientSecret;
   static const _redirectUri = 'playflash://callback';
   
-  // Spotify OAuth endpoints
+  // spotify oauth endpoints
   static const _authorizationEndpoint = 'https://accounts.spotify.com/authorize';
   static const _tokenEndpoint = 'https://accounts.spotify.com/api/token';
 
-  // Secure storage for tokens
+  // secure storage for tokens
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
     ),
   );
 
-  // Save tokens securely
   static Future<void> _saveTokens(oauth2.Client client) async {
     try {
       final credentials = client.credentials;
@@ -35,7 +34,7 @@ class SpotifyAuth {
       await _storage.write(key: 'token_expiry', value: credentials.expiration?.toIso8601String());
       await _storage.write(key: 'token_scopes', value: credentials.scopes?.join(','));
       
-      // Also save a simple flag in SharedPreferences for quick checking
+      // saving a simple flag in SharedPreferences for quick checking whether token was saved or not
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('spotify_authenticated', true);
       
@@ -45,7 +44,6 @@ class SpotifyAuth {
     }
   }
 
-  // IMPROVED: Network-resilient token loading
   static Future<oauth2.Client?> loadSavedTokens({bool skipRefresh = false}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -63,7 +61,7 @@ class SpotifyAuth {
 
       if (accessToken == null) {
         print('No access token found in storage');
-        return null; // Don't clear tokens here - just return null
+        return null; // doesnt clear tokens here -just returns null
       }
 
       DateTime? expiry;
@@ -80,8 +78,7 @@ class SpotifyAuth {
         scopes = scopesString.split(',');
       }
 
-      // Check if token is expired and should refresh
-      final shouldRefresh = !skipRefresh && 
+      final shouldRefresh = !skipRefresh &&      // checks if token is expired and refresh
                            expiry != null && 
                            DateTime.now().isAfter(expiry.subtract(Duration(minutes: 5)));
 
@@ -89,7 +86,6 @@ class SpotifyAuth {
         print('Access token is expired, attempting refresh...');
         
         try {
-          // Try to refresh token
           final refreshedCredentials = await _refreshTokenManually(refreshToken);
           
           if (refreshedCredentials != null) {
@@ -104,15 +100,15 @@ class SpotifyAuth {
             return client;
           } else {
             print('Token refresh failed - using existing token');
-            // Fall back to existing token instead of clearing
+            // revert back to existing token instead of clearing
           }
         } catch (e) {
           print('Token refresh failed: $e - using existing token');
-          // Continue with existing token instead of clearing
+          // we continue with existing token instead of clearing
         }
       }
       
-      // Create client with existing credentials (even if expired)
+      // creating client with existing credentials (even if expired)
       final credentials = oauth2.Credentials(
         accessToken,
         refreshToken: refreshToken,
@@ -139,7 +135,7 @@ class SpotifyAuth {
       
     } catch (e) {
       print('Error loading saved tokens: $e');
-      // Only clear tokens on specific errors, not all errors
+      // we clear tokens only on specific errors, not all errors
       if (e.toString().contains('SecurityException') || 
           e.toString().contains('corrupt') ||
           e.toString().contains('invalid_grant')) {
@@ -150,7 +146,7 @@ class SpotifyAuth {
     }
   }
 
-  // Manual token refresh implementation with timeout
+  // manual token refresh implementation with timeout
   static Future<oauth2.Credentials?> _refreshTokenManually(String refreshToken) async {
     try {
       final response = await http.post(
@@ -164,7 +160,7 @@ class SpotifyAuth {
           'refresh_token': refreshToken,
         },
       ).timeout(
-        Duration(seconds: 30), // Add timeout to prevent hanging
+        Duration(seconds: 30), // added timeout to prevent hanging
         onTimeout: () {
           throw TimeoutException('Token refresh timeout');
         },
@@ -174,7 +170,7 @@ class SpotifyAuth {
         final data = json.decode(response.body);
         
         final newAccessToken = data['access_token'];
-        final newRefreshToken = data['refresh_token'] ?? refreshToken; // Spotify may not always return a new refresh token
+        final newRefreshToken = data['refresh_token'] ?? refreshToken; 
         final expiresIn = data['expires_in']; // seconds
         
         final expiration = DateTime.now().add(Duration(seconds: expiresIn));
@@ -204,7 +200,7 @@ class SpotifyAuth {
     }
   }
 
-  // Clear saved tokens (for logout)
+  // clearing saved tokens (for logout)
   static Future<void> clearSavedTokens() async {
     try {
       await _storage.deleteAll();
@@ -216,7 +212,7 @@ class SpotifyAuth {
     }
   }
 
-  // Check if user is authenticated without network calls
+  // check if user is authenticated without network calls
   static Future<bool> isAuthenticated() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -224,7 +220,7 @@ class SpotifyAuth {
       
       if (!isAuthenticated) return false;
       
-      // Verify we actually have an access token
+      // verify we actually have an access token
       final accessToken = await _storage.read(key: 'access_token');
       return accessToken != null && accessToken.isNotEmpty;
     } catch (e) {
@@ -233,10 +229,9 @@ class SpotifyAuth {
     }
   }
 
-  // Updated login method with playlist modification scopes
   static Future<oauth2.Client> login(BuildContext context) async {
     try {
-      // First, try to load saved tokens
+      // first we try to load saved tokens
       final savedClient = await loadSavedTokens();
       if (savedClient != null) {
         print('Using saved authentication');
@@ -245,7 +240,7 @@ class SpotifyAuth {
 
       print('Starting new authentication flow');
 
-      // Initialize OAuth grant
+      // initializing oauth grant
       final grant = oauth2.AuthorizationCodeGrant(
         _clientId,
         Uri.parse(_authorizationEndpoint),
@@ -253,7 +248,7 @@ class SpotifyAuth {
         secret: _clientSecret,
       );
 
-      // Generate authorization URL with playlist modification scopes
+      // generate authorization url with playlist modification scopes
       final authUrl = grant.getAuthorizationUrl(
         Uri.parse(_redirectUri),
         scopes: [
@@ -269,7 +264,7 @@ class SpotifyAuth {
 
       print('Launching auth URL: $authUrl');
 
-      // Launch the URL in browser
+      // launch the url in browser
       final launched = await launchUrl(
         authUrl,
         mode: LaunchMode.externalApplication,
@@ -279,7 +274,7 @@ class SpotifyAuth {
         throw Exception('Could not launch browser');
       }
 
-      // Listen for the callback URL with timeout
+      // listen for the callback url with timeout
       final appLinks = AppLinks();
       late StreamSubscription subscription;
       final completer = Completer<Uri>();
@@ -304,7 +299,7 @@ class SpotifyAuth {
         },
       );
 
-      // Set up timeout
+      // set up timeout
       Timer(const Duration(minutes: 5), () {
         if (!completed) {
           completed = true;
@@ -314,26 +309,26 @@ class SpotifyAuth {
       });
 
       try {
-        // Wait for callback
+        // wait for callback
         final responseUri = await completer.future;
         
-        // Check if we got an error in the callback
+        // checking if we got an error in the callback
         if (responseUri.queryParameters.containsKey('error')) {
           throw Exception('Spotify authorization error: ${responseUri.queryParameters['error']}');
         }
 
-        // Exchange code for tokens
+        // exchange code for tokens
         final client = await grant.handleAuthorizationResponse(responseUri.queryParameters);
         
-        // Save the tokens for future use
+        // save the tokens for future use
         await _saveTokens(client);
         
         return client;
       } catch (e) {
-        // If automatic callback fails, fall back to manual entry
+        // if automatic callback fails, fall back to manual entry
         final client = await _handleManualAuth(context, authUrl, grant);
         
-        // Save the tokens for future use
+        // save the tokens for future use
         await _saveTokens(client);
         
         return client;
@@ -349,7 +344,6 @@ class SpotifyAuth {
     Uri authUrl, 
     oauth2.AuthorizationCodeGrant grant
   ) async {
-    // Show manual instructions
     final shouldContinue = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
@@ -408,7 +402,6 @@ class SpotifyAuth {
       throw Exception('Authentication cancelled');
     }
 
-    // Show URL paste dialog
     final responseUrl = await _showUrlPasteDialog(context);
     if (responseUrl == null) {
       throw Exception('No URL provided');
