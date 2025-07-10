@@ -53,6 +53,7 @@ flutter:
     - assets/images/help/6c.jpg
     - assets/images/help/7.jpg
     - assets/images/help/8.jpg
+    - assets/images/help/intro.jpg
 
 
   fonts:
