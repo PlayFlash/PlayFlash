@@ -1,3 +1,8 @@
+## License
+
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.
+
+
 # PlayFlash 🎵
 
 Tired of endlessly scrolling through messy Spotify playlists? **PlayFlash**  — 𝘗𝘭𝘢𝘺𝘭𝘪𝘴𝘵-𝘍𝘰𝘤𝘶𝘴𝘦𝘥 𝘓𝘪𝘴𝘵𝘦𝘯𝘪𝘯𝘨 𝘢𝘯𝘥 𝘚𝘰𝘳𝘵𝘪𝘯𝘨 𝘏𝘶𝘣 (𝘍.𝘓.𝘈.𝘚.𝘏) — is here to fix that. It's an AI-powered mobile app that organizes your music by mood and genre, making playlist discovery effortless.
