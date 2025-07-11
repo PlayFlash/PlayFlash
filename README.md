@@ -12,6 +12,9 @@ PlayFlash connects to your Spotify account, analyzes your playlists, and automat
 - 🔄 Creates new, sorted playlists and adds them to your Spotify library
 - 🖤 Clean Flutter UI designed for ease and speed
 
+## 🎥 App Working Demo  
+▶️ [Watch Demo on YouTube](https://youtube.com/shorts/UyCHfDKBI08?feature=share)
+
 ## 📸 Screenshots
 
 ###  Intro Screen
