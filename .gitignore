@@ -15,6 +15,7 @@ migrate_working_dir/
 # .gitignore
 lib/secrets.dart
 demo.mkv
+demo.mp4
 
 
 # IntelliJ related
