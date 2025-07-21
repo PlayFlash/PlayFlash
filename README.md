@@ -10,17 +10,17 @@ Tired of endlessly scrolling through messy Spotify playlists? **PlayFlash**  —
 PlayFlash connects to your Spotify account, analyzes your playlists, and automatically creates new, neatly categorized collections — saving you the hassle of manually sorting your songs, all in real time.
 
 ## 🚀 Features
-- 🔐 Secure Spotify login with OAuth 2.0
-- 📂 Fetches all user playlists from Spotify
-- 🎶 Analyzes songs using Spotify Web API and Gemini AI
-- 🧠 Categorizes songs by mood, genre, and vibe
-- 🔄 Creates new, sorted playlists and adds them to your Spotify library
-- 🖤 Clean Flutter UI designed for ease and speed
+-  Secure Spotify login with OAuth 2.0
+-  Fetches all user playlists from Spotify
+-  Analyzes songs using Spotify Web API and Gemini AI
+-  Categorizes songs by mood, genre, and vibe
+-  Creates new, sorted playlists and adds them to your Spotify library
+-  Clean Flutter UI designed for ease and speed
 
-## 🎥 App Working Demo  
+##  App Working Demo  
 ▶️ [Watch Demo on YouTube](https://youtube.com/shorts/UyCHfDKBI08?feature=share)
 
-## 📸 Screenshots
+##  Screenshots
 
 ###  Intro Screen
 ![Intro](assets/images/help/lowres/intro.jpg)
