@@ -91,7 +91,7 @@ class AboutScreen extends StatelessWidget {
                 context,
                 icon: Icons.public,
                 text: 'Check out the rest of my stuff',
-                url: 'https://ashwinsajeev.onrender.com/',
+                url: 'https://ashwinsajeev-dtv0.onrender.com/',
               ),
               // spotify card
               _buildInfoCard(
